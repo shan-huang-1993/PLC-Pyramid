@@ -4,73 +4,75 @@ This is the repo for project: Pyramid structure in sequence to sequence learning
 ![alt text](https://github.com/b19e93n/Pyramid-Seq2Seq-Code-Correction/blob/master/Pyramid_Encoder.png)
 
 ## Abstract
-We demonstrate the implementations of pyramid encoders in both multi-layer GRU and Transformer for seq2seq tasks. We apply the models to the code correction task on Juliet Test Suite for C/C++ and Java of Software Assurance Reference Dataset(SARD), successfully repaired 90.1% of faulted code in the test dataset, and show that a pyramid structure can greatly improve memory efficiency and therefore computation efficiency. We successfully carried out error type classification task on ITC benchmark examples (with only 685 code instances) using transfer learning with models pre-trained on Juliet Test Suite, pointing out a novel way of processing small datasets.
+We apply various seq2seq models on programming language correction tasks on Juliet Test Suite for C/C++ and Java of Software Assurance Reference Datasets(SARD), and achieve 75\%(for C/C++) and 56\%(for Java) repair rates on these tasks. We introduce Pyramid Encoder in these seq2seq models, which largely increases the computational efficiency and memory efficiency, while remain similar repair rate to their non-pyramid counterparts. We successfully carry out error type classification task on ITC benchmark examples (with only 685 code instances) using transfer learning with models pre-trained on Juliet Test Suite, pointing out a novel way of processing small programing language datasets.
 
 ## Directories
 
-`/Data_Processing`:  
-Contains code used to pre-process the datasets, as well as three original datasets: Juliet C/C++, Juliet Java, ITC Benchmark (for transfer learning)
+`/Data`:  
+Contains the three dataset we used: Juliet-C, Juliet-Java and ITC benchmark. Example data processing pynotebook for Juliet-Java dataset is uploaded. The complete dataset after pre-processing and a sample train-test splited dataset is included. In our original work, we did a 4-fold cross-validation.
 
-`/Train_Models`:  
-Contains implementations of different seq2seq models, as well as the code of running the training. All default hyper parameters of the models are stated in the paper. If not specified, all models operates on word-level.  
-`/Train_Models/PlainGRU`: Plain GRU  
-`/Train_Models/PyrGRU`: Pyramid GRU  
-`/Train_Models/PyrGRUChar`: Character-level Pyramid GRU  
-`/Train_Models/PyrTransformer_ave`: Pyramid Transformer with averaged residual connection  
-`/Train_Models/PyrTransformer_ff`: Pyramid Transformer where residual connection is connected with a linear layer to reduce length  
-`/Train_Models/Transformer`: Plain Transformer
+`/PLC_Model`
+Contains Model of GRU and Transformer. GRU.py contains implementation of Bahdanau attention, Luong's general, dot and concat attention. Both GRU.py and TFM.py contains implementation of pyramid encoder, that could be toggled on or off.
+
+`/train.py`
+run file for training GRU and transformer models
+
+`/test_GRU.py`
+script for testing a trained GRU model
+
+`/test_TFM.py`
+script for testing a trained Transformer model
 
 `/Transfer_Learning`:  
 Transfer Learning on ITC bench mark error type classification with models pre-trained on Juliet Test Suite for C/C++, implementations for both pyramid GRU and pyramid Transformer are given.
 
-`/Test_Code`:  
-Contains code for test model performance with beam search.
+The trained models are not included in the repository because of exceeding size. They are available at google drive: 
 
-The trained models are not included in the repository because of exceeding size. They are available at google drive: https://drive.google.com/drive/folders/1hIuDWnc-ZX4jb5Q-P_ODnnj-pkd3O4tn?usp=sharing
+## Required environment
 
-## How to use
+docopt (0.6.2)
+torch (1.6.0)
+numpy (1.19.1)
+matplotlib (3.3.1)
 
-### Data
+## Usage
+ 
+### Training a new model
 
-Data processing files are written as jupyter notebooks and are self-explanatory. Original SARD datasets are included. Sample pre-processed data files we used in the experiments are included under each corresponding directory
+run `python3 train.py -h` for more information.
 
-### Train Models
-
-Each directory contains model implementation of corresponding model. The default hyper-parameters of `run.py` are set for Juliet Test Suite for C/C++. To train models, please copy corresponding datasets to the model directory and do
+Example of training a GRU model with bahdanau attention and pyramid encoder on GPU-0:
 
 ```
-sh run.sh
+python3 train.py \
+--train-src=Data/Juliet-C/src_test0.txt \
+--train-tgt=Data/Juliet-C/tgt_test0.txt \
+--dev-src=Data/Juliet-C/src_test0.txt \
+--dev-tgt=Data/Juliet-C/tgt_test0.txt \
+--vocab=Data/Juliet-C/vocab.txt \
+--pyramid=1 \
+--model-type=Bahdanau \
+--cuda=0
 ```
 
-### Test Models
- 
- There are three sub-directories under `Test_Code`, designed for different types of models. GRU models (including Pyramid GRUs), character-level GRU models and Transformer models (including Pyramid Transformer). To use, copy the trained model under corresponding directory, and copy model implementations from their directory in `/Train_Models`. The list of files needs to be copied from there includes:  
- For GRU models:
- ```
- NLC.py, utils.py, Vocab_word.py
- ```
- For Character level GRU models:
- ```
- NLC.py, utils.py, Vocab_char.py
- ```
- For Transformer Models:
- ```
- model_TFM.py, modules.py, utils.py, Vocab_word.py
- ```
- 
- Then run 
- ```
- test.sh
- ```
- 
- ### Transfer Learning
- 
-Copy the model pre-trained on Juliet Test Suite for C/C++ under the corresponding directory, then run
- 
- ```
- run.sh
- ```
- 
- Note that the original model will not be overwritten.
- 
- Use `TestModel.py` for evaluating model performance in classification.
+### Testing a trained model
+
+run `python3 test_GRU.py -h` or `python3 test_TFM.py -h` for more information.
+
+Example of testing a Transformer model (with Pyramid-encoder or not) on GPU-0:
+
+```
+python3 test_TFM.py \
+--model=model_TFM.bin \
+--src=Data/Juliet-C/src_test0.txt \
+--tgt=Data/Juliet-C/tgt_test0.txt \
+--output=output.txt \
+--vocab=Data/Juliet-C/vocab.txt \
+--cuda=0
+```
+
+Then run metric Evaluation script:
+
+```
+python3 evaluation.py
+```
