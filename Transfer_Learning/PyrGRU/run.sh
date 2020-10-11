@@ -1,0 +1,1 @@
+python3 run.py train --train=src_train.txt --dev=src_val.txt --save-to=word_enc_dec_lastlayer_new.bin --batch-size=32 --log-every=10 --valid-niter=50 --log-path=log_word_enc_dec_lastlayer_new.txt --max-epoch=300 --model-path=original.bin --cuda=-1

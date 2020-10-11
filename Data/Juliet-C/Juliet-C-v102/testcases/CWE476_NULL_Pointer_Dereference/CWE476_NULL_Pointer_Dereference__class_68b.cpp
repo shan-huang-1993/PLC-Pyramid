@@ -1,0 +1,50 @@
+/* TEMPLATE GENERATED TESTCASE FILE
+Filename: CWE476_NULL_Pointer_Dereference__class_68b.cpp
+Label Definition File: CWE476_NULL_Pointer_Dereference__class.label.xml
+Template File: sources-sink-68b.tmpl.cpp
+*/
+/*
+ * @description
+ * CWE: 476 NULL Pointer Dereference
+ * BadSource:  Set data to NULL
+ * GoodSource: Initialize data
+ * Sink:
+ *    BadSink : Print data
+ * Flow Variant: 68 Data flow: data passed as a global variable from one function to another in different source files
+ *
+ * */
+
+#include "std_testcase.h"
+
+extern twointsclass * CWE476_NULL_Pointer_Dereference__class_68_bad_data;
+extern twointsclass * CWE476_NULL_Pointer_Dereference__class_68_goodG2B_data;
+
+namespace CWE476_NULL_Pointer_Dereference__class_68
+{
+
+/* all the sinks are the same, we just want to know where the hit originated if a tool flags one */
+
+#ifndef OMITBAD
+
+void bad_sink()
+{
+    twointsclass * data = CWE476_NULL_Pointer_Dereference__class_68_bad_data;
+    /* POTENTIAL FLAW: Attempt to use data, which may be NULL */
+    printIntLine(data[0].a);
+}
+
+#endif /* OMITBAD */
+
+#ifndef OMITGOOD
+
+/* goodG2B uses the GoodSource with the BadSink */
+void goodG2B_sink()
+{
+    twointsclass * data = CWE476_NULL_Pointer_Dereference__class_68_goodG2B_data;
+    /* POTENTIAL FLAW: Attempt to use data, which may be NULL */
+    printIntLine(data[0].a);
+}
+
+#endif /* OMITGOOD */
+
+} // close namespace

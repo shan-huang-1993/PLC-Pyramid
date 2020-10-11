@@ -1,0 +1,1 @@
+python run.py train --train=src_train.txt --dev=src_val.txt --batch-size=32 --log-path=3_layer_TFL.txt --save-to=3_layer_TFL.bin --enc-layers=3 --dec-layers=1 --model-path=original.bin

@@ -1,0 +1,42 @@
+000 void bad(){long a=1;long ret;ret=a<<32;sink=ret;}
+001 void bad(){long *buf=(long*)calloc(5,sizeof(long));int i;if(buf!=NULL){for(i=0;i<=5;i++){buf[i]=1;}free(buf);}}
+001 void bad(){int *buf=(int*)calloc(5,sizeof(int));int *p;int i;if(buf!=NULL){p=buf;for(i=0; i <=5; i++){*p=1;p++;}free(buf);}}
+001 void bad(){int *buf1=(int*)calloc(5,sizeof(int));int *buf2=(int*)calloc(3,sizeof(int));int i;for(i=0;i<5;i++){*(buf1+i)=i;}*(buf2+*(buf1+5))=1;free(buf1);free(buf2);}
+004 void bad(){int a;int b=0;int ret;a=rand();if((a < 5)&&(10 < a)){b+=a;}ret=b;sink=ret;}
+005 void bad(){float ret;	double a=3.4028235677973366e+38;	ret=a;sink=ret;}
+005 void bad(){short ret;int a;a=rand();ret=a;sink=ret;}
+006 typedef struct{unsigned int max : 5;unsigned int ret : 5;}bad_s_001;void bad(){bad_s_001 s;s.max=0x1f;s.ret=s.max+1;}
+014 typedef union{int a;int b;}bad_u_001;bad_u_001 * bad_func_001(void){int flag=rand();flag=1;bad_u_001 *u;switch(flag){case 1:{u=(bad_u_001 *)calloc(1,sizeof(bad_u_001));u->a=40;return u;}default:return(bad_u_001 *)(-1);}}void bad(){int ret;bad_u_001 *p=NULL;bad_u_001(*fptr)();fptr=(bad_u_001(*)(void))bad_func_001;*p=fptr();ret=p->b;free(p);p=NULL;}
+015 char bad_func_001(void){char str1='a';return str1;}void bad(){int a=1;char buf=bad_func_001();a--;if(a!=0){if(buf!='\0')printf("%c\n",buf);}}
+015 typedef struct{float c;char *a;int b;}bad_s_001;bad_s_001 bad_s_001_func_001(){bad_s_001 u1;char *s="This is STR";u1.a=s;u1.b=20;u1.c=30.5;return u1;}void bad(){bad_s_001 u ;int i;for(i=0;i<10;i++){u=bad_s_001_func_001();if(i==5)if(u.b >0)u.c=60.5;}}
+017 void bad(){int i;int j;i=rand();j=i-1;i=j+1;}
+018 void bad(){int *ptr,a;int flag=10;(flag==10)?(ptr=(int*)malloc(10*sizeof(int))):(a=5);if(ptr!=NULL){(flag==10)?(*(ptr+1)=10):(a=100);if(flag==10){free(ptr);}}if(flag==10)a=*(ptr+1);}
+018 void bad(){char **ptr=(char**)malloc(5*sizeof(char*));int i;for(i=0;i<5;i++)ptr[i]=(char*)malloc(15*sizeof(char));for(i=0;i<5;i++){strcpy(*(ptr+i),"String");free(ptr[i]);ptr[i]=NULL;}free(ptr);strcpy(*(ptr+2),"String");}
+019 typedef struct{int a;int b;int c;}bad_s_bad;void bad(){char buf[10];bad_s_bad *p;int ret;int i;for(i=0; i < 10; i++){buf[i]=1;}p=(bad_s_bad *)buf;ret=p->c;printf("%d \n",p->c);}
+019 typedef struct{int a;int b;int c;}bad_s_001;bad_s_001 *bad_s_001_gbl_str;void bad(){char buf[10];bad_s_001_gbl_str=(bad_s_001 *)buf;bad_s_001_gbl_str->c=1;}
+020 pthread_mutex_t bad_glb_mutex=PTHREAD_MUTEX_INITIALIZER;int bad_glb_data=0;int thread_set=1;void * bad_tsk_001(void *pram){pthread_mutex_lock(&bad_glb_mutex);bad_glb_data=(bad_glb_data % 100)+5;unsigned long ip=(unsigned long)pthread_self();printf("Task5! Lock Never Unlock,threadID# %lu! gbl5=%d \n",ip,bad_glb_data);return NULL;}void bad(){if(thread_set==NO_THREAD){;}else{pthread_t tid1;pthread_mutex_init(&bad_glb_mutex,NULL);pthread_create(&tid1,NULL,bad_tsk_001,NULL);pthread_join(tid1,NULL);pthread_mutex_destroy(&bad_glb_mutex);}}
+021 void bad(){unsigned int **ptr=(unsigned int**)malloc(MAX*sizeof(unsigned int*));unsigned int i,j;if(ptr!=NULL)for(i=0;i<MAX;i++)ptr[i]=(unsigned int*)malloc(MAX_VAL*sizeof(unsigned int));for(i=0;i<5;i++){for(j=0;j<5;j++){*(*(ptr+i)+j)=i;}free(ptr[i]);}free(ptr);}
+022 void bad(){int *ptr=(int*)malloc(5 * sizeof(int));int *p=(int*)malloc(5 * sizeof(int));if(ptr!=NULL){p=ptr;*(p+1)=1;free(ptr);}}
+022 void bad(){float *ptr=(float*)malloc(5 * sizeof(float));int *p=(int*)malloc(5 * sizeof(int));if(ptr!=NULL){p=(int *)ptr;*(p+1)=1.5;free(ptr);ptr=NULL;}}
+024 void bad(){int *p=NULL;int ret;ret=*p;sink=ret;}
+024 void bad(){int *p;p=(int *)(intptr_t)rand();*p=1;}
+024 int *bad_func_001(void){return(NULL);}void bad(){int *p;p=bad_func_001();*p=1;if(p!=NULL){*p=2;}}
+025 void bad(){long buf[5];buf[5]=1;sink=buf[idx];}
+025 void bad(){int buf[5];int index=5;int index1;index1=index;buf[index1]=1;sink=buf[idx];}
+025 void bad(){long buf[5];long *p;p=buf;*(p+5)=1;sink=buf[idx];}
+025 void bad(){float buf[5];float *p;p=buf;*(p+5)=1;sink=buf[idx];}
+025 void bad(){int buf[5];int *p;int index;p=buf;index=rand();*(p+index)=1;sink=buf[idx];}
+025 void bad(){int buf1[]={1,2,3,4,5,6};int buf2[]={1,2,3,4,5,6};int buf3[]={1,2,3,4,5,6};int buf4[]={1,2,3,4,5,6};int buf5[]={1,2,3,4,5};int *pbuf[]={buf1,buf2,buf3,buf4,buf5};pbuf[4][5]=1;}
+025 int bad_buf_gbl[5];void bad(){char *p;p=(char*)bad_buf_gbl;*(p+50)=1;}
+030 void bad(){int a;int b=0;int ret;a=rand();while(((0 < a)&&(a < 10))&&((2 < a)&&(a < 8))){b+=a;a++;}ret=b;sink=ret;}
+032 void bad(){int a=-1;int a1;int a2;unsigned int ret;a1=a;a2=a1;ret=a2;sink=ret;}
+034 typedef struct{char buf[524288];	char buf1[131072]; char buf2[131072];char buf3[1024];char buf4[1024];char buf[1024];}bad_s_001;void bad_func_001(bad_s_001 s){char buf[524288];					s.buf[0]=1;buf[0]=1;sink=buf[idx];}void bad(){bad_s_001 s;		bad_func_001(s);	}
+034 typedef struct{char buf[524288];	char buf1[131072]; char buf2[131072];char buf3[1024];char buf4[1024];char buf[1024];}bad_s_001;void bad_func_001(bad_s_001 s){char buf[524288];	buf[1]=10;s.buf[0]=1;sink=buf[idx];}void bad(){bad_s_001 s;void(*func)(bad_s_001);func=bad_func_001;func(s);}
+035 void bad(){char buf[10];strcpy(buf,"my string");int len=strlen(buf)-1;while(buf[len]!='Z'){len--;}}
+037 typedef union{int a;int b;}bad_u_001;bad_u_001 * bad_func_001(){int flag=rand();bad_u_001 *u;switch(flag){case 1:{u=(bad_u_001 *)calloc(1,sizeof(bad_u_001));u->a=40;return u;}case 2:{u=(bad_u_001 *)calloc(2,sizeof(bad_u_001));u->a=20;return u;}case 3:{u=(bad_u_001 *)calloc(3,sizeof(bad_u_001));u->a=30;return u;}default:return(bad_u_001 *)(-1);}}void bad(){int ret;bad_u_001 *p;p=bad_func_001();if(p!=NULL){ret=p->b;free(p);p=NULL;}}
+039 void bad(){int a ;int ret;ret=a;}
+040 pthread_mutex_t bad_glb_mutex=PTHREAD_MUTEX_INITIALIZER;int bad_glb_data=0;int bad_thread_set=1;void * bad_tsk_001(void *pram){if(bad_thread_set==NO_THREAD){;}else{bad_glb_data=(bad_glb_data % 100)+5;pthread_mutex_unlock(&bad_glb_mutex);unsigned long ip=(unsigned long)pthread_self();printf("Task5! Unlock without Lock,threadID# %lu! gbl5=%d \n",ip,bad_glb_data);}return NULL;}void bad(){if(bad_thread_set==NO_THREAD){;}else{pthread_t tid1;pthread_mutex_init(&bad_glb_mutex,NULL);pthread_create(&tid1,NULL,bad_tsk_001,NULL);pthread_join(tid1,NULL);pthread_mutex_destroy(&bad_glb_mutex);}}
+041 static int bad_glb_a=1;static int bad_glb_b=2;static int bad_glb_unuse;void bad(){bad_glb_unuse=bad_glb_a+bad_glb_b;}
+042 int bad_func_001(int flag){int ret=0;if(flag==0)ret=0;elseret=1;return ret;}long bad_func_002(long a[],int max){int i;for(i=0;i<max;i++){a[i]=i;}return a[i];}void bad(){float f;f=0.7;if(bad_func_001(0)==0){long(*fptr)(float *);long a;fptr=(long(*)(float *))bad_func_002;a=fptr(&f);}}
+043 void bad(){int dividend=1000;int ret;dividend/=0;ret=dividend;}
+043 void bad(){int dividend=1000;int divisor=0;int divisor1;int ret;divisor1=divisor;ret=dividend/divisor1;}

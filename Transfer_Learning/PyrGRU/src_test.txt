@@ -1,0 +1,39 @@
+000 void bad(){int a=1;int ret;ret=a>>32;sink=ret;}
+000 void bad(){int a=1;int shift=32;int shift1;int ret;shift1=shift;ret=a<<shift1;sink=ret;}
+000 void bad(){int ret;ret=1<<32;sink=ret;}
+001 void bad(){float *buf=(float*)calloc(5,sizeof(float));int i;if(buf!=NULL){for(i=0;i<=5;i++){buf[i]=1.0;}free(buf);}}
+001 void bad(){int *buf=(int*)calloc(5,sizeof(int));char *p;p=(char*)buf;if(buf!=NULL){*(p+30)=1;free(buf);}}
+001 void bad(){int i,j;char ** doubleptr=(char**)malloc(10*sizeof(char*));for(i=0;i<10;i++){doubleptr[i]=(char*)malloc(10*sizeof(char));}for(i=0;i<10;i++){for(j=0;j<=10;j++){doubleptr[i][j]='a'; 	}free(doubleptr[i]);}free(doubleptr);}
+002 void bad(){int *buf=(int*)calloc(5,sizeof(int));int index=5;index=rand()-2;if(buf!=NULL){buf[-index]=1;free(buf);}}
+002 void bad(){int i;char** doubleptr=(char**)malloc(10* sizeof(char*));if(doubleptr!=NULL){for(i=0;i<10;i++){doubleptr[i-10]=(char*)malloc(10*sizeof(char));if(doubleptr[i]!=NULL){doubleptr[0][0]='T';free(doubleptr[i]);}}free(doubleptr);}}
+002 typedef struct{char arr[10];int arri[10];}s_008;void bad(){s_008* ptr_s1=malloc(15*sizeof(s_008));s_008 ptr_s2[15];int i;if(ptr_s1!=NULL){for(i=-10;i<15;i++){memset(ptr_s1,1,15*sizeof(s_008));}memcpy(ptr_s2,ptr_s1,15*sizeof(s_008));free(ptr_s1);}}
+006 void bad(){long max=0x7fffffff;long ret;ret=max+1;sink=ret;}
+006 typedef struct{signed int max : 5;signed int ret : 5;}bad_s_001;void bad(){bad_s_001 s;s.max=0x0f;s.ret=s.max+1;}
+006 void bad(){int max=0x40000000;int ret;ret=max * 2;sink=ret;}
+007 void bad(){unsigned int min=0;unsigned int ret;ret=min-1;sink=ret;}
+007 void bad(){int ret;ret=(-2147483647)-2;sink=ret;}
+007 void bad(){float ret;float min=1.40129846e-45F;ret=min/2.0F;sink=ret;}
+008 int bad_func_001(){return 0;}void bad(){int a=0;int ret;while(bad_func_001()){a++;break;}ret=a;sink=ret;}
+009 void bad(){char str1[]="This is a string";char str2[16];memcpy(str2,str1,strlen(str1));}
+011 void bad(){int ret;int a=0;int i;for(i=0; ; i++){a++;}ret=a;sink=ret;}
+011 int bad_func_001(){return 1;}void bad(){int ret;int a=0;while(bad_func_001()){a++;}ret=a;sink=ret;}
+013 void bad(){float **fptr=(float**)malloc(5*sizeof(float*));int i=0,j=0;do{fptr[i]=NULL;i++;}while(i<5);i=0;do{for(j=0;j<5;j++){}free(fptr[i]);i++;}while(i<5);free(fptr);}
+015 float bad_func_001(int flag){float ret=1.0;while(flag>0){ret++;flag--;}return ret;}void bad(){float a=0.0;bad_func_001(10); if(a >0)a--;}
+015 double bad_func_001(double a[],int max){double ret=0.0;int i;for(i=0;i<max;i++)ret+=a[i];return(ret);}void bad(){int a=10,b=2,c=0;double arr[]={1.0,2.0,3.0,4.0};if(a==20){if(bad_func_001(arr,(sizeof(arr)/sizeof(double))) > a)a++;}else if(b!=2){if(bad_func_001(arr,(sizeof(arr)/sizeof(double))) < b)b++;}else if(c >0){if(bad_func_001(arr,(sizeof(arr)/sizeof(double)))==0)c++;}else{bad_func_001(arr,(sizeof(arr)/sizeof(double))); c++;}}
+018 static char * bad_func_001(char *str1){int i=0;int j;char * str_rev=NULL;if(str1!=NULL){i=strlen(str1);str_rev=(char *)malloc(i+1);if(str_rev!=NULL){for(j=0; j < i; j++){str_rev[j]=str1[i-j-1];}str_rev[i]='\0';}free(str_rev);return str_rev;}else{return NULL;}}void bad(){int j;char buf[][25]={"This is a String","Second String"};for(j=0; j <=1; j++){{char * str;str=bad_func_001(buf[j]);}}}
+025 int bad_buf_gbl[5];void bad(){int *p;p=bad_buf_gbl;p[5]=1;}
+027 void bad(){double base=0.0004;double exponent=-10^3600;double ans;ans=pow(base,exponent);dsink=ans;}
+027 void bad(){double base=-100;double exponent=-10^35000;double ans;ans=pow(base,exponent);dsink=ans;}
+030 void bad(){int a;int b=0;int ret;a=rand();while(((0 < a)&&(a < 8))&&((5 < a)&&(a < 10))){b+=a;a++;}ret=b;sink=ret;}
+032 void bad(){char a=-1;unsigned char ret;ret=a;sink=ret;}
+032 void bad(){int a=-1;unsigned int ret;ret=(5 * a)+4;sink=ret;}
+035 typedef struct{char buf[10];char buf1[10];char buf2[10];char buf3[10];char buf4[10];char buf5[10];}bad_s_001;void bad_func_001(bad_s_001 *s){int len=strlen(s->buf)-1;char c;for(;s->buf[len]!='Z';len--){c=s->buf[len];}}void bad_func_002(bad_s_001 s){s.buf[0]=1;}void bad(){int flag=0;bad_s_001 s;s.buf[0]=1;if(flag >1){bad_func_002(s);}else{bad_func_001(&s);}}
+036 void bad(){int buf[5]={1,2,3,4,5};int ret;ret=buf[-1];}
+037 int(*bad_func_001())[4]{int(*p)[4];int arr[4][4];int i,j;p=(int(*)[])malloc(sizeof arr);memcpy(p,arr,sizeof(arr));for(i=0;i< 4; i++){for(j=0 ;j<4; j++){*(p[i]+j)+=*(p[i]+j);}}return p;}void bad(){int(*ptr)[4];ptr=bad_func_001();free(ptr);ptr=NULL;}
+039 static const int UNINIT_VAR_bad_TRUE=1;static const int UNINIT_VAR_bad_FALSE=0;void bad(){float dvar,dvar1,ret;if(UNINIT_VAR_bad_TRUE==0)dvar=10.0;else if(UNINIT_VAR_bad_FALSE!=0)dvar1=25.8;else;ret=dvar;}
+039 void bad_func_001(int a[]){a[0]=ZERO;a[2]=TWO;}void bad(){int a[3],ret;bad_func_001(a);ret=a[1];};
+041 typedef struct{int a;int b;int unuse;}bad_s_001;void bad(){bad_s_001 s;s.a=1;s.b=2;s.unuse=s.a+s.b;}
+042 int bad_func_001(int *p){return(*p);}void bad(){int(*func)(int);int a=1;int ret;func=(int(*)(int))bad_func_001;ret=func(a);}
+042 char bad_func_001(char *str1,char *str2,char*str3){strcat(str1,str2);strcpy(str3,str1);return('c');}void bad(){char *str1="STRING";char *str2="STRING55";int *str3=(int *)malloc(20*sizeof(int));char ret;char(*func)(char,char,int *);func=(char(*)(char,char,int*))bad_func_001;ret=func(*str1,*str2,str3);}
+042 void bad_func_002(char **bad_dst1_gbl,char(*src)[15]){int i;for(i=0;i<5;i++){strcpy(*(bad_dst1_gbl+i),src[i]);}}void bad(){int i;bad_dst1_gbl=(char**)malloc(5*sizeof(char*));for(i=0;i<5;i++){bad_dst1_gbl[i]=(char*)malloc(15*sizeof(char));}while(1){void(*fptr)(char **);fptr=(void(*)(char**))bad_func_002;fptr(bad_dst1_gbl);break;}for(i=0;i<5;i++){free(bad_dst1_gbl[i]);bad_dst1_gbl[i]=NULL;}free(bad_dst1_gbl);bad_dst1_gbl=NULL;}
+043 void bad_func_001(int divisor){int dividend=1000;int ret;ret=dividend/divisor;}void bad(){bad_func_001(0);}
