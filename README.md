@@ -40,6 +40,7 @@ matplotlib (3.3.1)
 ### Training a new model
 
 run `python3 train.py -h` for more information.
+
 Example of training a GRU model with bahdanau attention and pyramid encoder on GPU-0:
 
 ```
@@ -56,8 +57,9 @@ python3 train.py \
 
 ### Testing a trained model
 
-run `python3 test_GRU.py -h` or `python3 test_TFM.py -h` for more information
-example of testing a Transformer model (with Pyramid-encoder or not) on GPU-0:
+run `python3 test_GRU.py -h` or `python3 test_TFM.py -h` for more information.
+
+Example of testing a Transformer model (with Pyramid-encoder or not) on GPU-0:
 
 ```
 python3 test_TFM.py \
@@ -69,7 +71,7 @@ python3 test_TFM.py \
 --cuda=0
 ```
 
-Then run metric Evaluation script
+Then run metric Evaluation script:
 
 ```
 python3 evaluation.py
