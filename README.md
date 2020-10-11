@@ -64,8 +64,8 @@ Example of testing a Transformer model (with Pyramid-encoder or not) on GPU-0:
 ```
 python3 test_TFM.py \
 --model=model_TFM.bin \
---src=Data/Juliet-C/src_test.txt \
---tgt=Data/Juliet-C/tgt_test.txt \
+--src=Data/Juliet-C/src_test0.txt \
+--tgt=Data/Juliet-C/tgt_test0.txt \
 --output=output.txt \
 --vocab=Data/Juliet-C/vocab.txt \
 --cuda=0
