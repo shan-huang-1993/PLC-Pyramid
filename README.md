@@ -1,6 +1,8 @@
 # Pyramid-Seq2Seq-Code-Correction
 This is the repo for project: Pyramid structure in sequence to sequence learning for code correction. 
 
+Related publication is available on ArXiv: https://arxiv.org/abs/2001.11367
+
 ![alt text](https://github.com/b19e93n/Pyramid-Seq2Seq-Code-Correction/blob/master/Pyramid_Encoder.png)
 
 ## Abstract
